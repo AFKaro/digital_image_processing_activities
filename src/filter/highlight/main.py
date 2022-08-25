@@ -41,15 +41,23 @@ def run_filter(image: any, filter: int):
     cv.imshow(window_name, compare)
     cv.waitKey(DELAY_BLUR)
 
-def print_image() -> any:
+def print_image(img: any) -> any:
     cv.namedWindow(window_name, cv.WINDOW_AUTOSIZE)
-    origin = cv.imread(f"./src/archives/lena.png")
+    origin = cv.imread(img)
     cv.imshow(window_name, origin)
     return origin
 
-if __name__=="__main__":
+def select_image(img_num: int) -> any:
+    if img_num == 1:
+        new_img = f"./src/archives/lena.png"
+    elif img_num == 2:
+        new_img = f"./src/archives/airplane.png"
+    
+    return new_img
 
-    origin = print_image()
+if __name__=="__main__":
+    origin_img = f"./src/archives/lena.png"
+    origin = print_image(origin_img)
     ascii_code = 48
     option = 1
 
@@ -58,6 +66,7 @@ if __name__=="__main__":
         print("[1] - Sobel \n"
               "[2] - Prewitt \n"
               "[3] - Reset \n"
+              "[4] - Select image \n"
               "[0] - Exit")
         
         print("Select option: ")
@@ -66,8 +75,13 @@ if __name__=="__main__":
         if option == 0:
             break
 
-        if option == 3:
-            origin = print_image()
+        elif option == 3:
+            origin = print_image(origin_img)
+
+        elif option == 4:
+            print("Image Number: ")
+            origin_img = select_image(cv.waitKey() - ascii_code)
+            origin = print_image(origin_img)
 
         else:
 
