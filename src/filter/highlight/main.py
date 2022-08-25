@@ -52,6 +52,12 @@ def select_image(img_num: int) -> any:
         new_img = f"./src/archives/lena.png"
     elif img_num == 2:
         new_img = f"./src/archives/airplane.png"
+    elif img_num == 3:
+        new_img = f"./src/archives/baboon.png"
+    elif img_num == 4:
+        new_img = f"./src/archives/fruits.png"
+    elif img_num == 5:
+        new_img = f"./src/archives/peppers.png"
     
     return new_img
 
