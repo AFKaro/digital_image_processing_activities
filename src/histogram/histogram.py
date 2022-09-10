@@ -1,6 +1,7 @@
-import numpy as np
 import cv2 as cv
 import numpy as np
+
+from utils.image_functions import select_image
 
 DELAY_BLUR = 100
 
@@ -40,22 +41,6 @@ def print_image(img: any) -> any:
     origin = cv.imread(img)
     cv.imshow(window_name, origin)
     return origin
-
-def select_image(img_num: int) -> any:
-    new_img = f"./src/archives/lena.png"
-
-    if img_num == 1:
-        new_img = f"./src/archives/lena.png"
-    elif img_num == 2:
-        new_img = f"./src/archives/airplane.png"
-    elif img_num == 3:
-        new_img = f"./src/archives/baboon.png"
-    elif img_num == 4:
-        new_img = f"./src/archives/fruits.png"
-    elif img_num == 5:
-        new_img = f"./src/archives/peppers.png"
-    
-    return new_img
 
 if __name__=="__main__":
     origin_img = f"./src/archives/lena.png"
