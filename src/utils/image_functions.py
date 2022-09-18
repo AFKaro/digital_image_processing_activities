@@ -15,5 +15,9 @@ def select_image(img_num: int) -> any:
         new_img = f"./src/archives/fazenda.jpg"
     elif img_num == 7:
         new_img = f"./src/archives/mergulhador.jpg"
+    elif img_num == 8:
+        new_img = f"./src/archives/ancora.jpg"
+    elif img_num == 9:
+        new_img = f"./src/archives/digital.jpg"
     
     return new_img
