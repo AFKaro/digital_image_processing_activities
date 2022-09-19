@@ -46,13 +46,24 @@ def get_limiar(image_array: list) -> float:
     
     return t_value
 
+def get_new_img(image_array: list, limiar: float) -> list:
+    new_img = image_array.copy()
+
+    for line in range(0, len(new_img)):
+        for col in range(0, len(new_img[line])):
+            if (new_img[line][col] < limiar):
+                new_img[line][col] = 0
+            else:
+                new_img[line][col] = 255
+    return new_img
+
 
 def segmentation(image: list):
     gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
 
     limiar = get_limiar(gray)
 
-    _, dst = cv.threshold(gray, limiar, 255, 0)
+    dst = get_new_img(gray, limiar)
 
     compare = np.concatenate((gray, dst), axis=1)
     cv.imshow(window_name, compare)
