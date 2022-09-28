@@ -1,8 +1,6 @@
-from email.policy import default
-from segmentation.by_region.pixel import Pixel
+from segmentation.region.models.pixel import Pixel
 from dataclasses import dataclass, field
 from typing import List
-import numpy as np
 
 
 @dataclass
