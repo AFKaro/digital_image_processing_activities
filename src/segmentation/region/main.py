@@ -1,12 +1,13 @@
 import sys
 
+
 sys.path.append("./src")
 
 from segmentation.region.application.connectivity_strategy_interface import ConnectivityStrategyInterface
 from segmentation.region.application.segmentation_by_region_context import SegmentationByRegionContext
 from segmentation.region.application.eigth_connectivity_strategy import EigthConnectivityStrategy
 from segmentation.region.application.four_connectivity_strategy import FourConnectivityStrategy
-from segmentation.region.models.region import Region
+from segmentation.region.application.m_connectivity_strategy import MConnectivityStrategy
 from utils.image_functions import select_image
 import cv2 as cv
 
@@ -33,17 +34,6 @@ def segmentation(image: list, connective: ConnectivityStrategyInterface):
     segmentation_alg = SegmentationByRegionContext()
     segmentation_alg.set_strategy(connective(gray))
     segmentation_alg.segment(seed_x, seed_y)
-    region = segmentation_alg.get_region()
-
-    new_image = mark_region(gray.copy(), region)
-    cv.imshow(window_name, new_image)
-    cv.waitKey(DELAY_BLUR)
-
-
-def mark_region(image: list, region: Region):
-    for pixel in region.pixels:
-        image[pixel.x, pixel.y] = 0
-    return image
 
 
 def print_image(img: any) -> any:
@@ -96,7 +86,7 @@ if __name__=="__main__":
                 elif option == 2:
                     segmentation(origin, FourConnectivityStrategy)
                 elif option == 3:
-                    print("In development...")
+                    segmentation(origin, MConnectivityStrategy)
                 else: 
                     print("Invalid option!")
         

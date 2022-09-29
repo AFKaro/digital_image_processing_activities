@@ -4,11 +4,11 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import List
 import numpy as np
+import cv2 as cv
 
 
 @dataclass
 class ConnectivityStrategyInterface(ABC):
-
     image: list
     region: Region = None
     visited_pixel: List[Pixel] = field(default_factory=lambda: [])
@@ -35,8 +35,6 @@ class ConnectivityStrategyInterface(ABC):
     def add_region(self, pixel: Pixel):
         self.visited_pixel.append(pixel)
 
-        # print(f"Seed: [{pixel.x},{pixel.y}], Visiteds: {len(self.visited_pixel)}")
-
         if not self.region:
             self.region = Region(pixels=[pixel])
             self.region.calculate_mean()
@@ -44,8 +42,17 @@ class ConnectivityStrategyInterface(ABC):
             self.region.pixels.append(pixel)
             self.region.calculate_mean()
         
+        self.mark_region()
+        
     def is_visited(self, x: int, y: int) -> bool:
         for pixel in self.visited_pixel:
             if pixel.x == x and pixel.y==y:
                 return True
         return False
+
+    def mark_region(self):
+        for pixel in self.region.pixels:
+            self.image[pixel.x, pixel.y] = 0
+
+        cv.imshow("segmentation", self.image)
+        cv.waitKey(10)
