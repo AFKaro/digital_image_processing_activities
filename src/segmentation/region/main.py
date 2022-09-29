@@ -82,9 +82,9 @@ if __name__=="__main__":
                 option = cv.waitKey() - ascii_code
 
                 if option == 1:
-                    segmentation(origin, EigthConnectivityStrategy)
-                elif option == 2:
                     segmentation(origin, FourConnectivityStrategy)
+                elif option == 2:
+                    segmentation(origin, EigthConnectivityStrategy)
                 elif option == 3:
                     segmentation(origin, MConnectivityStrategy)
                 else: 
