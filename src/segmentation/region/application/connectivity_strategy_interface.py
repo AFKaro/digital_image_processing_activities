@@ -11,6 +11,7 @@ import cv2 as cv
 class ConnectivityStrategyInterface(ABC):
     image: list
     region: Region = None
+    iterations: int = 0
     visited_pixel: List[Pixel] = field(default_factory=lambda: [])
     stack_pixel: List[Pixel] = field(default_factory=lambda: [])
 
@@ -42,7 +43,7 @@ class ConnectivityStrategyInterface(ABC):
             self.region.pixels.append(pixel)
             self.region.calculate_mean()
         
-        self.mark_region()
+        self.mark_region(pixel)
         
     def is_visited(self, x: int, y: int) -> bool:
         for pixel in self.visited_pixel:
@@ -50,9 +51,8 @@ class ConnectivityStrategyInterface(ABC):
                 return True
         return False
 
-    def mark_region(self):
-        for pixel in self.region.pixels:
-            self.image[pixel.x, pixel.y] = 0
-
-        cv.imshow("segmentation", self.image)
-        cv.waitKey(10)
+    def mark_region(self, pixel: Pixel):
+        self.image[pixel.x, pixel.y] = 0
+        if self.iterations % 100 == 0:
+            cv.imshow("segmentation", self.image)
+            cv.waitKey(10)

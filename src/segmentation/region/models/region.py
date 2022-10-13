@@ -13,3 +13,9 @@ class Region:
         for pixel in self.pixels:
             sum_pixels += pixel.value
         self.mean = sum_pixels / len(self.pixels)
+    
+    def exist_pixel(self, x, y) -> bool:
+        for pixel in self.pixels:
+            if pixel.x == x and pixel.y == y:
+                return True
+        return False

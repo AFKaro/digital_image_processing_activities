@@ -1,0 +1,36 @@
+from dataclasses import dataclass
+import numpy as np
+import cv2 as cv
+
+
+@dataclass
+class Histogram:
+    image: list
+    
+    def plot(self):
+        histSize = 256
+        histRange = (0, 256)
+        accumulate = False
+        bgr_planes = cv.split(self.image)
+
+        b_hist = cv.calcHist(bgr_planes, [0], None, [histSize], histRange, accumulate=accumulate)
+        g_hist = cv.calcHist(bgr_planes, [1], None, [histSize], histRange, accumulate=accumulate)
+        r_hist = cv.calcHist(bgr_planes, [2], None, [histSize], histRange, accumulate=accumulate)
+
+        hist_w = 512
+        hist_h = 400
+        bin_w = int(round( hist_w/histSize ))
+
+        histImage = np.zeros((hist_h, hist_w, 3), dtype=np.uint8)
+
+        cv.normalize(b_hist, b_hist, alpha=0, beta=hist_h, norm_type=cv.NORM_MINMAX)
+        cv.normalize(g_hist, g_hist, alpha=0, beta=hist_h, norm_type=cv.NORM_MINMAX)
+        cv.normalize(r_hist, r_hist, alpha=0, beta=hist_h, norm_type=cv.NORM_MINMAX)
+
+        for i in range(1, histSize):
+            cv.line(histImage, ( bin_w*(i-1), hist_h - int(b_hist[i-1]) ), ( bin_w*(i), hist_h - int(b_hist[i]) ), ( 255, 0, 0), thickness=2)
+            cv.line(histImage, ( bin_w*(i-1), hist_h - int(g_hist[i-1]) ), ( bin_w*(i), hist_h - int(g_hist[i]) ), ( 0, 255, 0), thickness=2)
+            cv.line(histImage, ( bin_w*(i-1), hist_h - int(r_hist[i-1]) ), ( bin_w*(i), hist_h - int(r_hist[i]) ), ( 0, 0, 255), thickness=2)
+
+        cv.imshow("Histogram", histImage)
+        cv.waitKey(100)
