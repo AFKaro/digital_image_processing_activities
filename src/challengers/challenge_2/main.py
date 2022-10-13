@@ -64,13 +64,14 @@ def print_region(src: str) -> list:
     cv.namedWindow(window_name, cv.WINDOW_AUTOSIZE)
     img = cv.imread(src)
     global region
+    global origin
     
     for line in range(len(img)):
         for col in range(len(img[line])):
-            if region.exist_pixel(line, col):
-                img[line][col] = 0
-            else:
+            if origin[line][col] != 0:
                 img[line][col] = 255
+            else:
+                img[line][col] = 0
 
     cv.imshow("segmentation", img)
     cv.waitKey(10)

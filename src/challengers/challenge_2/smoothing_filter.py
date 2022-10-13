@@ -10,6 +10,6 @@ class SmoothingFilter:
         self.mask = (3, 3)
         
     def smothing(self, image: list):
-        for i in range(10):
-            image = cv.medianBlur(image, 3)
+        for i in range(50):
+            image = cv.medianBlur(image, 5)
         return image
